@@ -4,14 +4,20 @@ const img = new Image();
 
 img.src='./media/flappy-bird-set.png';
 
-// Settings
+// Settings => add feature to manipulate settings with inputs ? 
 
 let gamePlaying = false;
-const gravity = .5;
+const gravity = .4;
 const speed = 6.2;
 const size = [51, 36];
 const jump = -11.5;
 const cTenth = (canvas.width / 10);
+
+// pipes settings 
+
+const pipeWidth = 78;
+const pipeGap = 270;
+const pipeLoc = () => (Math.random() * ((canvas.height - (pipeGap + pipeWidth)) - pipeWidth)) +pipeWidth;
 
 let index = 0,
     bestScore = 0,
@@ -19,6 +25,15 @@ let index = 0,
     pipes = [],
     flight,
     flyHeight;
+
+
+    const setup = () => {
+        currentScore = 0;
+        flight = jmup;
+        flyHeight = (canvas.height / 2) - (size[1] / 2);
+
+        pipes = Array(3).fill().map((a, i) => [canvas.width + (i * (pipeWidth)), pipeLoc()])
+    }
 
 const render = () => {
     index ++ ;
@@ -31,6 +46,8 @@ const render = () => {
 
     if(gamePlaying){
         ctx.drawImage(img, 432, Math.floor((index % 9) / 3) * size[1] , ...size, cTenth, flyHeight, ...size);
+        flight += gravity;
+        flyHeight = Math.min(flyHeight + flight, canvas.height - size[1]);
 
     }
     
@@ -50,6 +67,9 @@ const render = () => {
     window.requestAnimationFrame(render);
 }
 
+
+setup();
 img.onload = render;
 
 document.addEventListener('click', () => gamePlaying = true );
+window.onclick = () => {flight = jump}
