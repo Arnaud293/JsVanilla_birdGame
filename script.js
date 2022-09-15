@@ -18,12 +18,13 @@ let index = 0,
     currentScore = 0,
     pipes = [],
     flight,
-    flightHeight;
+    flyHeight;
 
 const render = () => {
     index ++ ;
 
-    ctx.drawImage()
+    ctx.drawImage(img, 432, Math.floor((index % 9) / 3) * size[1] , ...size, ((canvas.width / 2) - size[0] / 2), flyHeight, ...size);
+    flyHeight = (canvas.height / 2) - (size[1] / 2);
 
     window.requestAnimationFrame(render);
 }
