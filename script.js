@@ -32,7 +32,7 @@ let index = 0,
         flight = jump;
         flyHeight = (canvas.height / 2) - (size[1] / 2);
 
-        pipes = Array(3).fill().map((a, i) => [canvas.width + (i * (pipeWidth)), pipeLoc()])
+        pipes = Array(3).fill().map((a, i) => [canvas.width + (i * (pipeGap + pipeWidth)), pipeLoc()])
     }
 
 const render = () => {
@@ -88,8 +88,11 @@ const render = () => {
             if([
                 pipe[0] <= cTenth + size[0],
                 pipe[0] + pipeWidth >= cTenth,
-                
-            ])
+                pipe[1] > flyHeight || pipe[1] + pipeGap < flyHeight + size[1]
+            ].every(elem => elem)){
+                gamePlaying = false;
+                setup();
+            }
         })
     }
 
